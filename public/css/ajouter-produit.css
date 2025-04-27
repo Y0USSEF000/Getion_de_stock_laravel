@@ -1,0 +1,176 @@
+/* === Base === */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(145deg, #0c0c0c, #111111);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 60px 20px 100px;
+    overflow-x: hidden;
+  }
+  
+  /* === Form Container === */
+  form {
+    background: rgba(26, 26, 26, 0.95);
+    border: 1px solid rgba(0, 255, 115, 0.1);
+    backdrop-filter: blur(12px);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0, 255, 115, 0.2);
+    width: 100%;
+    max-width: 540px;
+    animation: fadeInUp 0.8s ease-out;
+    transition: box-shadow 0.3s;
+  }
+  
+  form:hover {
+    box-shadow: 0 0 40px rgba(0, 255, 115, 0.5);
+  }
+  
+  /* === Heading === */
+  h2 {
+    color: #00ff73;
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 28px;
+    text-shadow: 0 0 10px rgba(0, 255, 115, 0.4);
+  }
+  
+  /* === Inputs & Selects === */
+  input, select, button {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #222;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    outline: none;
+  }
+  
+  input:focus, select:focus {
+    box-shadow: 0 0 10px rgba(0, 255, 115, 0.6);
+    background-color: #2a2a2a;
+  }
+  
+  input::placeholder {
+    color: #aaa;
+  }
+  
+  /* === Custom File Input === */
+  input[type="file"] {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+  }
+  
+  input[type="file"]::file-selector-button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00ff73;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  input[type="file"]::file-selector-button:hover {
+    background-color: #00e06b;
+  }
+  
+  /* === Button === */
+  button {
+    background-color: #00ff73;
+    color: #000000;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 0.6px;
+    box-shadow: 0 0 12px rgba(0, 255, 115, 0.4);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #00e06b;
+    transform: translateY(-2px);
+  }
+  
+  /* === Alert Message === */
+  .alert {
+    background-color: #2e2e2e;
+    border-left: 5px solid #00ff73;
+    padding: 12px 16px;
+    color: #fff;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    animation: fadeIn 0.8s ease-out;
+  }
+  
+  /* === Footer === */
+  .footer {
+    margin-top: auto;
+    background: #111;
+    width: 100%;
+    padding: 25px 0;
+    text-align: center;
+    color: #888;
+    font-size: 0.95rem;
+    border-top: 1px solid #222;
+    box-shadow: 0 -5px 15px rgba(0, 255, 115, 0.1);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .footer p {
+    margin: 6px 0;
+  }
+  
+  .footer a {
+    color: #00ff73;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .footer a:hover {
+    color: #baffd7;
+  }
+  
+  /* === Animations === */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* === Responsive === */
+  @media (max-width: 600px) {
+    form {
+      padding: 30px 20px;
+    }
+  }
+  

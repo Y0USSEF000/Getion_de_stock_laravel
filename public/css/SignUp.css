@@ -1,0 +1,149 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sign-up-page {
+  min-height: 100vh;
+  background-color: #121212;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.sign-up-container {
+  display: flex;
+  background-color: #1e1e1e;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 255, 115, 0.2);
+  overflow: hidden;
+  max-width: 900px;
+  width: 100%;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.sign-up-image {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0d0d0d;
+  padding: 0px;
+}
+
+.sign-up-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.sign-up-box {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.sign-up-box h2 {
+  margin-bottom: 25px;
+  color: #00ff73;
+  font-size: 2rem;
+}
+
+.sign-up-box form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+}
+
+.sign-up-box input {
+  padding: 12px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2e2e2e;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.sign-up-box input:focus {
+  outline: none;
+  box-shadow: 0 0 8px #00ff73;
+  background-color: #3b3b3b;
+}
+
+.sign-up-box button {
+  padding: 12px;
+  background-color: #00ff73;
+  border: none;
+  border-radius: 8px;
+  color: #121212;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.sign-up-box button:hover {
+  background-color: #00e06e;
+  transform: scale(1.05);
+}
+
+.login-link {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.login-link a {
+  color: #00ff73;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #f44336;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.success-message {
+  color: #4caf50;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .sign-up-container {
+      flex-direction: column;
+  }
+
+  .sign-up-image {
+      display: none;
+  }
+
+  .sign-up-box {
+      padding: 30px 20px;
+  }
+}
