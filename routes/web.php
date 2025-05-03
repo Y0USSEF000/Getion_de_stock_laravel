@@ -9,6 +9,10 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SupportMessageController;
+
+
 
 
 
@@ -50,6 +54,12 @@ Route::get('/page1', function () {
     return view('page1');
 })->name('page1');
 
+Route::get('/pageadmin', function () {
+    return view('pageadmin');
+})->name('pageadmin');
+
+
+
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 
@@ -63,8 +73,18 @@ Route::get('/connexionadmin', function () {
     return view('connexionadmin');
 })->name('connexionadmin');
 
-Route::post('/pageadmin', [AdminController::class, 'submit'])->name('admin.submit');
+
+Route::post('/admin/connexion', [AdminController::class, 'connexion'])->name('admin.connexion');
 Route::get('/pageadmin', [AdminController::class, 'showLoginadminForm'])->name('pageadmin');
+
+Route::get('/admin/users', [AdminController::class, 'index'])->name('users');
+Route::delete('/admin/users/{id}', [AdminController::class, 'destroy'])->name('admin.users.delete');
+
+Route::get('/admin', [adminDashboard::class, 'adminDashboard'])->name('admin.dashboard');
+Route::get('/messages', [SupportMessageController::class, 'showMessages'])->name('messages');
+
+
+
 
 
 
