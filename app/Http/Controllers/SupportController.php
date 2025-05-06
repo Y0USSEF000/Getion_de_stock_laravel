@@ -20,4 +20,8 @@ class SupportController extends Controller
 
         return back()->with('success', 'Votre message a été envoyé avec succès !');
     }
+    public function index()
+    {
+        return view('stockshopmaster');
+    }
 }

@@ -2,63 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\StockProduct;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function create()
+    public function index(Request $request)
     {
-        return view('ajouter-produit');  
-    }
+        $productType = $request->query('product_type', '');
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string|max:20',
-            'category' => 'required|string',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer|min:1',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif',
-        ]);
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('product_images', 'public');
-        } else {
-            $imagePath = null;
+        // Query products with optional filtering by product_type
+        $query = StockProduct::query();
+        if ($productType) {
+            $query->where('product_type', $productType);
         }
 
-        Product::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'category' => $request->category,
-            'price' => $request->price,
-            'quantity' => $request->quantity,
-            'image' => $imagePath,
-        ]);
+        // Paginate the results (e.g., 12 products per page)
+        $products = $query->paginate(12);
 
-        return redirect()->route('ajouter-produit')->with('success', 'Produit ajouté avec succès.');
+        // Pass the products to the Blade view
+        return view('stockshopmaster', compact('products'));
     }
-    public function index()
-{
-    $products = Product::latest()->get();
-    return view('admin.products', compact('products'));
-}
-
-public function destroy($id)
-{
-    $product = Product::findOrFail($id);
-
-    if ($product->image) {
-        \Storage::disk('public')->delete($product->image);
-    }
-
-    $product->delete();
-
-    return redirect()->route('admin.products')->with('success', 'Produit supprimé avec succès !');
-}
-
 }

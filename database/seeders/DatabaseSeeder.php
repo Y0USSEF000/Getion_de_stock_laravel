@@ -14,6 +14,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin123@gmail.com',
             'password' => Hash::make('admin123'),
+
+            
+
+
         ]);
+        $this->call(StockProductSeeder::class);
+
     }
+  
+   
 }
