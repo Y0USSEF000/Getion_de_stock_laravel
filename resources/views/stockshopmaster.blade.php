@@ -22,7 +22,6 @@
             margin: 0;
         }
 
-        /* Header */
         header {
             position: fixed;
             top: 0;
@@ -60,13 +59,11 @@
             color: #00e565;
         }
 
-        /* Main content */
         main {
             flex: 1;
-            padding: 80px 20px 120px; /* Space for header and footer */
+            padding: 80px 20px 120px;
         }
 
-        /* Section titles */
         .section-title {
             font-size: 1.8em;
             color: #00e565;
@@ -75,7 +72,6 @@
             text-shadow: 0 0 5px rgba(0, 255, 115, 0.5);
         }
 
-        /* Filter bar (bottom) */
         .filter-bar {
             position: fixed;
             bottom: 0;
@@ -129,10 +125,9 @@
             box-shadow: 0 0 8px rgba(0, 255, 115, 0.5);
         }
 
-        /* Hamburger icon */
         .hamburger {
             position: fixed;
-            top: 70px; /* Below header */
+            top: 70px;
             right: 20px;
             font-size: 28px;
             color: #00ff73;
@@ -150,7 +145,6 @@
             font-size: 24px;
         }
 
-        /* Product container */
         .product-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -197,7 +191,6 @@
             color: #00ff73;
         }
 
-        /* Pagination */
         .pagination {
             text-align: center;
             margin: 40px 0;
@@ -246,7 +239,6 @@
             color: #00ff73;
         }
 
-        /* Footer */
         footer {
             background: rgba(51, 51, 51, 0.9);
             backdrop-filter: blur(10px);
@@ -272,7 +264,6 @@
             color: #00e565;
         }
 
-        /* Responsive design */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -349,168 +340,101 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <h1>Stock Products</h1>
         <nav>
             <a href="{{ url('/') }}">Home</a>
-            <a href="{{ url('/stockshopmaster') }}">Products</a>
+            <a href="{{ route('stockshopmaster') }}">Products</a>
             <a href="{{ url('/about') }}">About</a>
             <a href="{{ url('/page1') }}">Last page</a>
         </nav>
     </header>
 
-    <!-- Main Content -->
     <main>
-        <!-- Hamburger Icon -->
-        <div class="hamburger" onclick="toggleFilterBar()" aria-label="Toggle filter menu" tabindex="0" onkeydown="if(event.key === 'Enter') toggleFilterBar()">☰</div>
+        <div class="hamburger" onclick="toggleFilterBar()">☰</div>
 
         <div class="filter-bar" id="filterBar">
             <h2 class="section-title">Filter Products</h2>
             <div class="filter-buttons">
-                <form action="{{ route('stockshopmaster') }}" method="GET" style="display: inline;">
-                    <input type="hidden" name="product_type" value="">
-                    <button type="submit" class="{{ request('product_type') == '' ? 'active' : '' }}">All</button>
-                </form>
-                <form action="{{ route('stockshopmaster') }}" method="GET" style="display: inline;">
-                    <input type="hidden" name="product_type" value="clothes">
-                    <button type="submit" class="{{ request('product_type') == 'clothes' ? 'active' : '' }}">Clothes</button>
-                </form>
-                <form action="{{ route('stockshopmaster') }}" method="GET" style="display: inline;">
-                    <input type="hidden" name="product_type" value="electronics">
-                    <button type="submit" class="{{ request('product_type') == 'electronics' ? 'active' : '' }}">Electronics</button>
-                </form>
-                <form action="{{ route('stockshopmaster') }}" method="GET" style="display: inline;">
-                    <input type="hidden" name="product_type" value="video games">
-                    <button type="submit" class="{{ request('product_type') == 'video games' ? 'active' : '' }}">Video Games</button>
-                </form>
-                <form action="{{ route('stockshopmaster') }}" method="GET" style="display: inline;">
-                    <input type="hidden" name="product_type" value="books">
-                    <button type="submit" class="{{ request('product_type') == 'books' ? 'active' : '' }}">Books</button>
-                </form>
-                <form action="{{ route('stockshopmaster') }}" method="GET" style="display: inline;">
-                    <input type="hidden" name="product_type" value="mandas">
-                    <button type="submit" class="{{ request('product_type') == 'mandas' ? 'active' : '' }}">Mandas</button>
-                </form>
+                @foreach (['' => 'All', 'Clothes' => 'Clothes', 'Electronics' => 'Electronics', 'Books' => 'Books', 'Video games' => 'Video games'] as $type => $label)
+                    <form action="{{ route('stockshopmaster') }}" method="GET" style="display: inline;">
+                        <input type="hidden" name="product_type" value="{{ $type }}">
+                        <button type="submit" class="{{ request('product_type') === $type ? 'active' : '' }}">{{ $label }}</button>
+                    </form>
+                @endforeach
             </div>
         </div>
 
-        <!-- Products Display -->
         <h2 class="section-title">Available Products</h2>
         <div class="product-container">
             @forelse($products as $product)
                 <div class="product">
-                    <img src="{{ asset('images/' . $product->product_img) }}" alt="{{ $product->product_name }}" onerror="this.src='https://via.placeholder.com/280x180.png?text=Image+Not+Found';">
+                    <img src="{{ asset('images/' . ($product->product_img ?: 'placeholder.jpg')) }}" alt="{{ $product->product_name }}">
                     <h3>{{ $product->product_name }}</h3>
-                    <p><strong>Price:</strong> MAD {{ $product->product_price }}</p>
+                    <p><strong>Price:</strong> MAD {{ number_format($product->product_price, 2) }}</p>
                     <p><strong>Quantity:</strong> {{ $product->product_quantity }}</p>
-                    <p>{{ $product->product_description }}</p>
+                    <p><strong>Type:</strong> {{ $product->product_type }}</p>
+                    <p>{{ $product->product_description ?: 'No description available' }}</p>
                 </div>
             @empty
-                <p class="section-title" style="text-align: center;">No products found.</p>
+                <p class="section-title">No products found.</p>
             @endforelse
         </div>
 
-        <!-- Pagination (Limited to 12 Numbers) -->
         <h2 class="section-title">Page Navigation</h2>
         <div class="pagination">
             <div class="page-links">
                 @php
                     $currentPage = $products->currentPage();
                     $lastPage = $products->lastPage();
+                    $productType = request('product_type', '');
                     $maxVisible = 12;
-                    $halfVisible = floor($maxVisible / 2);
-
-                    // Calculate start and end page numbers
-                    $start = max(1, $currentPage - $halfVisible);
-                    $end = min($lastPage, $currentPage + $halfVisible);
-
-                    // Adjust start/end to ensure maxVisible pages are shown
-                    if ($end - $start + 1 < $maxVisible) {
-                        if ($start == 1) {
-                            $end = min($lastPage, $start + $maxVisible - 1);
-                        } else {
-                            $end = min($lastPage, $currentPage + $halfVisible);
-                            $start = max(1, $end - $maxVisible + 1);
-                        }
-                    }
-
-                    // Get current product_type
-                    $productType = request()->query('product_type', '');
-
-                    // Show first page and ellipsis if needed
-                    if ($start > 1) {
-                        echo '<form action="' . route('stockshopmaster') . '" method="GET" style="display: inline;">
-                            <input type="hidden" name="product_type" value="' . $productType . '">
-                            <input type="hidden" name="page" value="1">
-                            <button type="submit" class="' . ($currentPage == 1 ? 'active' : '') . '">1</button>
-                        </form>';
-                        if ($start > 2) {
-                            echo '<span class="ellipsis">...</span>';
-                        }
-                    }
-
-                    // Generate page links
-                    for ($i = $start; $i <= $end; $i++) {
-                        echo '<form action="' . route('stockshopmaster') . '" method="GET" style="display: inline;">
-                            <input type="hidden" name="product_type" value="' . $productType . '">
-                            <input type="hidden" name="page" value="' . $i . '">
-                            <button type="submit" class="' . ($currentPage == $i ? 'active' : '') . '">' . $i . '</button>
-                        </form>';
-                    }
-
-                    // Show last page and ellipsis if needed
-                    if ($end < $lastPage) {
-                        if ($end < $lastPage - 1) {
-                            echo '<span class="ellipsis">...</span>';
-                        }
-                        echo '<form action="' . route('stockshopmaster') . '" method="GET" style="display: inline;">
-                            <input type="hidden" name="product_type" value="' . $productType . '">
-                            <input type="hidden" name="page" value="' . $lastPage . '">
-                            <button type="submit" class="' . ($currentPage == $lastPage ? 'active' : '') . '">' . $lastPage . '</button>
-                        </form>';
-                    }
+                    $half = floor($maxVisible / 2);
+                    $start = max(1, $currentPage - $half);
+                    $end = min($lastPage, $currentPage + $half);
                 @endphp
+
+                @if ($start > 1)
+                    <form action="{{ route('stockshopmaster') }}" method="GET" style="display: inline;">
+                        <input type="hidden" name="product_type" value="{{ $productType }}">
+                        <input type="hidden" name="page" value="1">
+                        <button type="submit">1</button>
+                    </form>
+                    @if ($start > 2)
+                        <span class="ellipsis">...</span>
+                    @endif
+                @endif
+
+                @for ($i = $start; $i <= $end; $i++)
+                    <form action="{{ route('stockshopmaster') }}" method="GET" style="display: inline;">
+                        <input type="hidden" name="product_type" value="{{ $productType }}">
+                        <input type="hidden" name="page" value="{{ $i }}">
+                        <button type="submit" class="{{ $currentPage == $i ? 'active' : '' }}">{{ $i }}</button>
+                    </form>
+                @endfor
+
+                @if ($end < $lastPage)
+                    @if ($end < $lastPage - 1)
+                        <span class="ellipsis">...</span>
+                    @endif
+                    <form action="{{ route('stockshopmaster') }}" method="GET" style="display: inline;">
+                        <input type="hidden" name="product_type" value="{{ $productType }}">
+                        <input type="hidden" name="page" value="{{ $lastPage }}">
+                        <button type="submit">{{ $lastPage }}</button>
+                    </form>
+                @endif
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer>
-        <p>© 2025 Your PFE Project. All rights reserved.</p>
-        <div>
-            <a href="{{ url('/privacy') }}">Privacy</a>
-            <a href="{{ url('/contact') }}">Contact</a>
-        </div>
+        <p>© {{ date('Y') }} Stock Products. All rights reserved.</p>
     </footer>
-
-    <!--
-        Backend Check:
-        Ensure your Laravel controller for the 'stockshopmaster' route handles the 'product_type' and 'page' query parameters correctly.
-        Example controller logic:
-        ```php
-        public function index(Request $request) {
-            $productType = $request->query('product_type', '');
-            $query = Product::query();
-            if ($productType) {
-                $query->where('product_type', $productType);
-            }
-            $products = $query->paginate(12); // Adjust per_page as needed
-            return view('stockshopmaster', compact('products'));
-        }
-        ```
-        Verify that:
-        1. The Product model has a 'product_type' column or equivalent.
-        2. The pagination preserves 'product_type' in the URL (e.g., /stockshopmaster?product_type=clothes&page=2).
-        3. The database query correctly filters products based on 'product_type'.
-    -->
 
     <script>
         function toggleFilterBar() {
-            var filterBar = document.getElementById("filterBar");
-            var hamburger = document.querySelector(".hamburger");
-            filterBar.classList.toggle("open");
-            hamburger.classList.toggle("open");
+            document.getElementById('filterBar').classList.toggle('open');
+            document.querySelector('.hamburger').classList.toggle('open');
         }
     </script>
 </body>

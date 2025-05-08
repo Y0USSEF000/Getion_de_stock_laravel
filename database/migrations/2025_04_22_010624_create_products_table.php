@@ -3,29 +3,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    public function up()
-    {
-        Schema::create('products', function (Blueprint $table) {
+return new class extends Migration {
+    public function up(): void {
+        Schema::create('stock_products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->nullable();      
-            $table->string('phone')->nullable();      
-            $table->string('category')->nullable();   
-            $table->decimal('price', 8, 2);
-            $table->integer('quantity')->nullable();  
-            $table->string('image')->nullable();      
-            $table->text('description')->nullable();  
+            $table->string('product_name');
+            $table->string('email');
+            $table->string('phone');
+            $table->string('product_type');
+            $table->decimal('product_price', 8, 2);
+            $table->integer('product_quantity');
+            $table->text('product_description')->nullable();
+            $table->string('product_img')->nullable();
             $table->timestamps();
         });
-        
-        
     }
-    
 
-    public function down(): void
-    {
-        Schema::dropIfExists('products');
+    public function down(): void {
+        Schema::dropIfExists('stock_products');
     }
 };

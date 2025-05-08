@@ -12,7 +12,65 @@ body {
     padding: 60px 20px 100px;
     overflow-x: hidden;
   }
-  
+  .header {
+    background-color: #121212;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 255, 115, 0.15);
+    border-bottom: 1px solid #1e1e1e;
+}
+
+.logo span {
+    font-size: 2rem;
+    color: #00ff73;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(0, 255, 115, 0.4);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-link {
+    color: #00ff73;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: #00ff73;
+    width: 0%;
+    transition: width 0.3s ease;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: #ffffff;
+}
+
+.user-dropdown {
+    margin-left: 20px;
+    color: #00ff73;
+    /* Tu peux ajouter ici un icône ou menu utilisateur */
+}
+
   /* === Form Container === */
   form {
     background: rgba(26, 26, 26, 0.95);

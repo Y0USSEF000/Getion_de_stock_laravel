@@ -14,23 +14,14 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+{
+    $credentials = $request->only('email', 'password');
 
-        $email = $request->input('email');
-        $password = $request->input('password');
-
-        $user = DB::table('users')
-                ->where('email', $email)
-                ->first();
-
-        if ($user && Hash::check($password, $user->password)) {
-            return redirect()->route('page1');
-        } else {
-            return back()->with('error', 'Email or password is incorrect');
-        }
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect()->route('page1'); // Or whatever your route name is
     }
+
+    return back()->with('error', 'Email ou mot de passe incorrect');
+}
 }

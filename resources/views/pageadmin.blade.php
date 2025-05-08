@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -110,6 +111,16 @@
             color: #ffffff;
         }
 
+        .chart-container {
+            margin: 50px auto;
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 0 20px rgba(0, 255, 115, 0.4);
+        }
+
         footer {
             text-align: center;
             padding: 30px;
@@ -131,7 +142,6 @@
             color: #ffffff;
         }
 
-        /* Mobile responsive */
         @media (max-width: 768px) {
             header {
                 font-size: 2em;
@@ -173,7 +183,7 @@
             <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Users Icon">
             <h2>Manage Users</h2>
             <p>View, edit, and delete user accounts easily.</p>
-            <a href="{{ route('users') }}">Go to Users</a>
+            <a href="{{ url('/admin/users') }}">Go to Users</a>
         </div>
 
         <div class="card">
@@ -204,6 +214,10 @@
             <a href="#">Configure Security</a>
         </div>
     </div>
+
+    <div class="chart-container">
+        <canvas id="userMessageChart"></canvas>
+    </div>
 </div>
 
 <footer>
@@ -214,6 +228,52 @@
         <a href="#">Help</a>
     </div>
 </footer>
+
+<script>
+    const ctx = document.getElementById('userMessageChart').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [
+                {
+                    label: 'New Users',
+                    data: [20, 35, 40, 60, 75, 90],
+                    backgroundColor: 'rgba(0, 255, 115, 0.5)',
+                    borderColor: '#00ff73',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Support Messages',
+                    data: [15, 25, 30, 45, 60, 80],
+                    backgroundColor: 'rgba(0, 255, 115, 0.3)',
+                    borderColor: '#00ff73',
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#00ff73'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: '#00ff73' },
+                    grid: { color: '#333' }
+                },
+                y: {
+                    ticks: { color: '#00ff73' },
+                    grid: { color: '#333' }
+                }
+            }
+        }
+    });
+</script>
 
 </body>
 </html>

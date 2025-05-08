@@ -12,7 +12,7 @@ use App\Http\Controllers\SupportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SupportMessageController;
 use App\Http\Controllers\StockProductController;
-
+use App\Http\Controllers\UserController;
 
 
 
@@ -33,6 +33,21 @@ Route::post('/create', [InscriptionController::class, 'store'])->name('create.su
 Route::get('/ajouter-produit', [ProductController::class, 'create'])->name('ajouter-produit');
 Route::post('/ajouter-produit', [ProductController::class, 'store'])->name('product.store');
 
+// Category routes
+Route::get('/products/clothes', [ProductController::class, 'clothes'])->name('products.clothes');
+Route::get('/products/technology', [ProductController::class, 'technology'])->name('products.technology');
+Route::get('/products/books', [ProductController::class, 'books'])->name('products.books');
+Route::get('/products/video-games', [ProductController::class, 'videoGames'])->name('products.video-games');
+
+Route::get('/books', [ProductController::class, 'books'])->name('books');
+Route::get('/clothes', [ProductController::class, 'clothes'])->name('clothes');
+Route::get('/Technology', [ProductController::class, 'technology'])->name('Technology');
+Route::get('/video-games', [ProductController::class, 'videoGames'])->name('video-games');
+
+
+
+
+
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
@@ -48,6 +63,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/connexion' , function(){
 return view('connexion');
 })->name('connexion');
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect()->route('connexion');
+})->name('logout');
 
 Route::get('/connexion', [AuthController::class, 'showLogin'])->name('connexion');
 Route::post('/connexion', [AuthController::class, 'login'])->name('login.submit');
@@ -98,10 +119,15 @@ Route::get('/stockshopmaster', [StockProductController::class, 'showAllProducts'
 Route::get('/products', function () {
     return redirect()->route('stockshopmaster');
 })->name('products.index');
+Route::get('/stockshopmaster', [ProductController::class, 'index'])->name('stockshopmaster');
+
 
 
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile')->middleware('auth');
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+
+Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
+Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('admin.users.delete');
 
 
 
