@@ -4,15 +4,377 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Produits</title>
-    <link rel="stylesheet" href="{{ asset('css/admin-products.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --darker: #1a1e21;
+            --danger: #f72585;
+            --danger-dark: #e01a6e;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-dark);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--success);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert-success i {
+            color: var(--success);
+            font-size: 1.3rem;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+            background: white;
+            box-shadow: var(--card-shadow);
+            border-radius: 12px;
+            padding: 20px;
+            transition: var(--transition);
+        }
+        
+        .table-wrapper:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+        
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        th {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr {
+            transition: var(--transition);
+        }
+        
+        tr:not(:last-child) {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        tr:hover {
+            background-color: rgba(72, 149, 239, 0.08);
+        }
+        
+        .product-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+        
+        .no-image {
+            color: #6c757d;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+        
+        .delete-btn {
+            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(247, 37, 133, 0.2);
+        }
+        
+        .delete-btn i {
+            font-size: 0.9rem;
+        }
+        
+        .delete-btn:hover {
+            background: linear-gradient(135deg, var(--danger-dark), #c9165b);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+        }
+        
+        .delete-btn:active {
+            transform: translateY(0);
+        }
+        
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .edit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(67, 97, 238, 0.2);
+        }
+        
+        .edit-btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #314bc8);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: linear-gradient(135deg, #e0e7ff, #d5deff);
+            color: var(--primary-dark);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .modal-btn-cancel {
+            background: #f0f0f0;
+            color: var(--dark);
+        }
+
+        .modal-btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+            color: white;
+        }
+
+        .modal-btn-confirm:hover {
+            background: linear-gradient(135deg, var(--danger-dark), #c9165b);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .admin-container {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 25px;
+            }
+            
+            .table-wrapper {
+                padding: 15px;
+            }
+            
+            th, td {
+                padding: 12px 15px;
+            }
+            
+            .product-img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+                padding-bottom: 10px;
+            }
+            
+            h1::after {
+                width: 80px;
+                height: 3px;
+            }
+            
+            .alert-success {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+            
+            .table-wrapper {
+                padding: 10px;
+            }
+            
+            th, td {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .delete-btn, .edit-btn {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <div class="admin-container">
-    <h1>Liste des Produits</h1>
+    <h1><i class="fas fa-boxes"></i> Liste des Produits</h1>
 
     @if(session('success'))
-        <div class="alert-success">{{ session('success') }}</div>
+        <div class="alert-success">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
+        </div>
     @endif
 
     <div class="table-wrapper">
@@ -37,29 +399,87 @@
                         @if($product->image)
                             <img src="{{ asset('storage/' . $product->image) }}" alt="Image" class="product-img">
                         @else
-                            Pas d'image
+                            <span class="no-image">Pas d'image</span>
                         @endif
                     </td>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->email }}</td>
                     <td>{{ $product->phone }}</td>
-                    <td>{{ $product->category }}</td>
+                    <td><span class="category-badge">{{ $product->category }}</span></td>
                     <td>{{ number_format($product->price, 2, ',', ' ') }}</td>
                     <td>{{ $product->quantity }}</td>
                     <td>
-                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Supprimer ce produit ?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="delete-btn">Supprimer</button>
-                        </form>
+                        <div class="action-btns">
+                            <a href="#" class="edit-btn">
+                                <i class="fas fa-edit"></i> Modifier
+                            </a>
+                            <button class="delete-btn" onclick="openDeleteModal({{ $product->id }})">
+                                <i class="fas fa-trash-alt"></i> Supprimer
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
-
         </table>
     </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <h3 style="margin-bottom: 15px;"><i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i> Confirmer la suppression</h3>
+        <p>Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible.</p>
+        <div class="modal-actions">
+            <button class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Annuler</button>
+            <form id="deleteForm" method="POST" style="display: inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="modal-btn modal-btn-confirm">
+                    <i class="fas fa-trash-alt"></i> Supprimer
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add animation to table rows on hover
+    document.querySelectorAll('tbody tr').forEach(row => {
+        row.addEventListener('mouseenter', () => {
+            row.style.transform = 'translateX(5px)';
+        });
+        
+        row.addEventListener('mouseleave', () => {
+            row.style.transform = 'translateX(0)';
+        });
+    });
+
+    // Delete modal functions
+    function openDeleteModal(productId) {
+        const modal = document.getElementById('deleteModal');
+        const form = document.getElementById('deleteForm');
+        
+        // Set the form action with the product ID
+        form.action = `/admin/products/${productId}`;
+        
+        // Display the modal
+        modal.style.display = 'flex';
+    }
+
+    function closeDeleteModal() {
+        const modal = document.getElementById('deleteModal');
+        modal.style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+        const modal = document.getElementById('deleteModal');
+        if (event.target === modal) {
+            closeDeleteModal();
+        }
+    });
+</script>
 
 </body>
 </html>

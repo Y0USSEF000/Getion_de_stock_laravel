@@ -13,6 +13,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SupportMessageController;
 use App\Http\Controllers\StockProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminProductController;
+use Illuminate\Http\Request;
+
 
 
 
@@ -122,7 +126,6 @@ Route::get('/products', function () {
 Route::get('/stockshopmaster', [ProductController::class, 'index'])->name('stockshopmaster');
 
 
-
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile')->middleware('auth');
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
 
@@ -130,6 +133,30 @@ Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.
 Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('admin.users.delete');
 
 
+Route::get('/productsadmin', [DashboardController::class, 'index'])->name('productsadmin');
+Route::post('/dashboard/store', [DashboardController::class, 'storeProduct'])->name('dashboard.store');
+Route::get('/loginadmin', [AdminController::class, 'showLoginadminForm'])->name('connexionadmin');
+Route::post('/loginadmin', [AdminController::class, 'connexion'])->name('loginadmin');
+Route::get('/users', [AdminController::class, 'index'])->name('users');
+Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
+Route::post('/submit', [AdminController::class, 'submit'])->name('submit');
+Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
+Route::get('/admin/products', [AdminController::class, 'showProducts'])->name('admin.products');
+Route::post('/admin/dashboard/store', [AdminController::class, 'storeProduct'])->name('admin.dashboard.store');
+Route::delete('/admin/dashboard/product/{id}', [AdminController::class, 'destroyProduct'])->name('admin.dashboard.destroy');
+
+Route::get('/users', [UserController::class, 'create'])->name('users');
+
+
+Route::prefix('admin')->group(function() {
+    Route::get('/products', [ProductController::class, 'index2'])->name('admin.products.index');
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+    // Add other product routes as needed
+});
+
+Route::get('/admin/add-product', [AdminProductController::class, 'create'])->name('admin.add-product');
+Route::post('/admin/products', [AdminProductController::class, 'store'])->name('admin.product.store');
+Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 
 Auth::routes();
 

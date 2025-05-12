@@ -32,4 +32,9 @@ class UserController extends Controller
         User::findOrFail($id)->delete();
         return redirect()->route('admin.users.index')->with('success', 'Utilisateur supprimé avec succès.');
     }
+    
+    public function indexshow()
+    {
+        return view('stock_products');
+    }
 }

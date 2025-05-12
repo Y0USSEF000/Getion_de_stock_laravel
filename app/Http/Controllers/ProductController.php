@@ -79,7 +79,23 @@ class ProductController extends Controller
 
     public function videoGames()
     {
-        $games = Product::where('category', 'Video games')->get();
-        return view('video-games', compact('games'));
+        $products = Product::where('category', 'Video games')->get();
+        return view('video-games', compact('products'));
     }
+    // Display all products
+public function index2()
+{
+    $products = StockProduct::all(); // or Product::all() depending on your model
+    return view('products', compact('products'));
+}
+
+// Delete a product
+public function destroy($id)
+{
+    $product = StockProduct::findOrFail($id); // or Product::findOrFail($id)
+    $product->delete();
+    
+    return redirect()->route('products.index')
+                   ->with('success', 'Product deleted successfully');
+}
 }
