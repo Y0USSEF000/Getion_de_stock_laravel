@@ -155,8 +155,12 @@ Route::prefix('admin')->group(function() {
 });
 
 Route::get('/admin/add-product', [AdminProductController::class, 'create'])->name('admin.add-product');
+
+
+Route::get('/admin/products', [AdminProductController::class, 'index'])->name('products');
 Route::post('/admin/products', [AdminProductController::class, 'store'])->name('admin.product.store');
-Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+  Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+
 
 Auth::routes();
 

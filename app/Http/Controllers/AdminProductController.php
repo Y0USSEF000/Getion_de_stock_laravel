@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -12,6 +11,12 @@ class AdminProductController extends Controller
     {
         return view('add-product-admin');
     }
+    public function index()
+{
+    $products = StockProduct::all();
+    return view('products', compact('products'));
+}
+
 
     public function store(Request $request)
     {
@@ -32,20 +37,17 @@ class AdminProductController extends Controller
 
             StockProduct::create($validated);
 
-            return redirect()->route('admin.add-product')->with('success', 'Product successfully saved to the database!');
+            return redirect()->route('admin.add-product')->with('success', 'Produit enregistré avec succès !');
         } catch (Exception $e) {
-            return redirect()->route('admin.add-product')->with('error', 'Failed to save product to the database. Please try again.');
+            return redirect()->route('admin.add-product')->with('error', 'Erreur lors de l\'enregistrement du produit.');
         }
-
-        
     }
+
     public function destroy($id)
-{
-    $products = StockProduct::findOrFail($id); 
-    $products->delete();
-    
-    return redirect()->route('products')
-                   ->with('success', 'Product deleted successfully');
-}
-    
+    {
+        $product = StockProduct::findOrFail($id); 
+        $product->delete();
+        
+        return redirect()->route('products')->with('success', 'Produit supprimé avec succès');
+    }
 }

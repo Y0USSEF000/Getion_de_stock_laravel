@@ -394,11 +394,11 @@
                 @foreach($products as $product)
                 <tr>
                     <td>
-                        @if($product->image)
-                            <img src="{{ asset('storage/' . $product->product_img )}}" alt="Image" class="product-img">
-                        @else
-                            <span class="no-image">Pas d'image</span>
-                        @endif
+                    @if($product->product_img)
+        <img src="{{ asset('storage/' . $product->product_img) }}" alt="Image" class="product-img">
+    @else
+        <span class="no-image">Pas d'image</span>
+    @endif
                     </td>
                     <td>{{ $product->product_name }}</td>
                     <td><span class="category-badge">{{ $product->product_type }}</span></td>
