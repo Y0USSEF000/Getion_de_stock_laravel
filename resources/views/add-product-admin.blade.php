@@ -483,9 +483,8 @@
         <h1>Add New Product</h1>
         <nav>
             <a href="{{ route('pageadmin') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            <a href="{{url('/products')}}"><i class="fas fa-boxes"></i> Products</a>
+            <a href="{{url('/admin/products')}}"><i class="fas fa-boxes"></i> Products</a>
             <a href="{{ route('admin.users.index') }}"><i class="fas fa-users-cog"></i> Users</a>
-            <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
     </header>
 

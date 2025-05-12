@@ -383,10 +383,8 @@
                 <tr>
                     <th>Image</th>
                     <th>Nom</th>
-                    <th>Email</th>
-                    <th>Téléphone</th>
                     <th>Catégorie</th>
-                    <th>Prix (€)</th>
+                    <th>Prix (MAD)</th>
                     <th>Quantité</th>
                     <th>Actions</th>
                 </tr>
@@ -397,22 +395,17 @@
                 <tr>
                     <td>
                         @if($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="Image" class="product-img">
+                            <img src="{{ asset('storage/' . $product->product_img )}}" alt="Image" class="product-img">
                         @else
                             <span class="no-image">Pas d'image</span>
                         @endif
                     </td>
-                    <td>{{ $product->name }}</td>
-                    <td>{{ $product->email }}</td>
-                    <td>{{ $product->phone }}</td>
-                    <td><span class="category-badge">{{ $product->category }}</span></td>
-                    <td>{{ number_format($product->price, 2, ',', ' ') }}</td>
-                    <td>{{ $product->quantity }}</td>
+                    <td>{{ $product->product_name }}</td>
+                    <td><span class="category-badge">{{ $product->product_type }}</span></td>
+                    <td>{{ number_format($product->product_price, 2, ',', ' ') }}</td>
+                    <td>{{ $product->product_quantity }}</td>
                     <td>
-                        <div class="action-btns">
-                            <a href="#" class="edit-btn">
-                                <i class="fas fa-edit"></i> Modifier
-                            </a>
+                       
                             <button class="delete-btn" onclick="openDeleteModal({{ $product->id }})">
                                 <i class="fas fa-trash-alt"></i> Supprimer
                             </button>
@@ -444,42 +437,59 @@
 </div>
 
 <script>
-    // Add animation to table rows on hover
-    document.querySelectorAll('tbody tr').forEach(row => {
-        row.addEventListener('mouseenter', () => {
-            row.style.transform = 'translateX(5px)';
-        });
-        
-        row.addEventListener('mouseleave', () => {
-            row.style.transform = 'translateX(0)';
-        });
-    });
+    let deleteModal = document.getElementById("deleteModal");
+    let deleteForm = document.getElementById("deleteForm");
 
-    // Delete modal functions
     function openDeleteModal(productId) {
-        const modal = document.getElementById('deleteModal');
-        const form = document.getElementById('deleteForm');
-        
-        // Set the form action with the product ID
-        form.action = `/admin/products/${productId}`;
-        
-        // Display the modal
-        modal.style.display = 'flex';
+        deleteForm.action = "/products/" + productId; // Adjust if your route is different
+        deleteModal.style.display = "flex";
     }
 
     function closeDeleteModal() {
-        const modal = document.getElementById('deleteModal');
-        modal.style.display = 'none';
+        deleteModal.style.display = "none";
     }
 
-    // Close modal when clicking outside
-    window.addEventListener('click', (event) => {
-        const modal = document.getElementById('deleteModal');
-        if (event.target === modal) {
+    // Handle form submission via AJAX
+    deleteForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new FormData(this)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text(); // or .json() depending on response type
+            }
+            throw new Error('Erreur lors de la suppression');
+        })
+        .then(() => {
+            closeDeleteModal();
+
+            // Remove the corresponding row from the table
+            const row = document.querySelector(`button[onclick="openDeleteModal(${deleteForm.action.split('/').pop()})"]`).closest("tr");
+            if (row) {
+                row.remove();
+            }
+        })
+        .catch(error => {
+            alert(error.message);
+            closeDeleteModal();
+        });
+    });
+
+    // Optional: close modal on outside click
+    window.onclick = function(event) {
+        if (event.target == deleteModal) {
             closeDeleteModal();
         }
-    });
+    }
 </script>
+
 
 </body>
 </html>

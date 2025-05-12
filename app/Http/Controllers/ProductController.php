@@ -82,17 +82,15 @@ class ProductController extends Controller
         $products = Product::where('category', 'Video games')->get();
         return view('video-games', compact('products'));
     }
-    // Display all products
 public function index2()
 {
-    $products = StockProduct::all(); // or Product::all() depending on your model
+    $products = StockProduct::all(); 
     return view('products', compact('products'));
 }
 
-// Delete a product
 public function destroy($id)
 {
-    $product = StockProduct::findOrFail($id); // or Product::findOrFail($id)
+    $product = StockProduct::findOrFail($id);
     $product->delete();
     
     return redirect()->route('products.index')

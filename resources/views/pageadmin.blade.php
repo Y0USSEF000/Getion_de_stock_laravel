@@ -286,7 +286,9 @@
     <a href="{{route('admin.users.index')}}" onclick="navigateTo('admin.users.index')">USERS</a>
     <a href="{{url('/messages')}}" onclick="navigateTo('messages')">MESSAGES</a>
     <a href="{{url('/admin/products')}}" onclick="navigateTo('products')">PRODUCTS</a>
-    <a href="{{ url('/admin/add-product') }}">CREATE PRODUCT</a></nav>
+    <a href="{{ url('/admin/add-product') }}">CREATE PRODUCT</a>
+    <a href="{{url('/')}}" onclick="navigateTo('home')">HOME</a>
+</nav>
 
 <div class="content">
     <h2>WELCOME TO THE ADMIN PANEL</h2>
