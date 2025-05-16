@@ -1,129 +1,356 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vêtements - ShopMaster</title>
-    <link rel="stylesheet" href="{{ asset('css/ajouter-produit.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-color: #0d0d0d;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
+        :root {
+            --primary: #00ff73;
+            --primary-dark: #00cc5c;
+            --primary-light: rgba(0, 255, 115, 0.1);
+            --dark: #0d0d0d;
+            --darker: #080808;
+            --dark-light: #1a1a1a;
+            --light: #f8f9fa;
+            --gray: #2d2d2d;
+            --gray-light: #e9ecef;
+            --shadow: 0 4px 20px rgba(0, 255, 115, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-
+        
+        body {
+            background-color: var(--dark);
+            color: white;
+            line-height: 1.6;
+        }
+        
         .custom-header {
-            background-color: #121212;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 255, 115, 0.1);
+            background-color: var(--darker);
+            padding: 20px 40px;
+            box-shadow: var(--shadow);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-
-        .custom-header .logo {
-            color: #00ff73;
+        
+        .logo {
+            color: var(--primary);
+            font-family: 'Montserrat', sans-serif;
             font-size: 2rem;
-            margin-left: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 255, 115, 0.3);
         }
-
-        .nav-links a {
-            color: #00ff73;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            text-decoration: underline;
-            color: #ffffff;
-        }
-
-        .clothes-container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .clothes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        
+        .nav-links {
+            display: flex;
             gap: 30px;
         }
-
-        .clothes-card {
-            background: linear-gradient(145deg, #1c1c1c, #141414);
-            border-radius: 18px;
-            padding: 20px;
-            box-shadow: 0 0 25px rgba(0, 255, 115, 0.1);
-            transition: all 0.3s ease;
-            text-align: center;
+        
+        .nav-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
             position: relative;
+            padding: 5px 0;
         }
-
-        .clothes-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 0 35px rgba(0, 255, 115, 0.4);
+        
+        .nav-links a:hover {
+            color: white;
+            text-shadow: 0 0 8px var(--primary);
         }
-
-        .clothes-card img {
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
             width: 100%;
-            max-height: 180px;
+        }
+        
+        .clothes-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 30px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            color: var(--primary);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .empty-message {
+            text-align: center;
+            color: var(--gray-light);
+            font-size: 1.2rem;
+            margin-top: 50px;
+        }
+        
+        .clothes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .clothes-card {
+            background: linear-gradient(145deg, var(--dark-light), var(--darker));
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--gray);
+        }
+        
+        .clothes-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 255, 115, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .clothes-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                var(--primary-light)
+            );
+            transform: rotate(30deg);
+            transition: var(--transition);
+            opacity: 0;
+        }
+        
+        .clothes-card:hover::before {
+            opacity: 1;
+        }
+        
+        .clothes-img {
+            width: 100%;
+            height: 250px;
             object-fit: cover;
             border-radius: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--gray);
+            transition: var(--transition);
         }
-
-        .clothes-card h3 {
-            color: #00ff73;
-            font-size: 1.3rem;
-            margin: 10px 0 6px;
+        
+        .clothes-card:hover .clothes-img {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-
-        .clothes-card p {
-            color: #ccc;
-            margin: 4px 0;
+        
+        .clothes-title {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .clothes-detail {
+            color: var(--gray-light);
+            margin: 8px 0;
             font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        .buy-btn {
-            margin-top: 12px;
-            display: inline-block;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 30px;
-            background-color: transparent;
-            color: #00ff73;
-            border: 2px solid #00ff73;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .buy-btn:hover {
-            background-color: #00ff73;
-            color: #0d0d0d;
-            box-shadow: 0 0 15px #00ff73;
-        }
-
-        footer.footer {
-            margin-top: 60px;
-            background-color: #121212;
-            text-align: center;
-            padding: 20px;
+        
+        .clothes-detail i {
+            color: var(--primary);
             font-size: 0.9rem;
-            border-top: 1px solid #222;
+            min-width: 20px;
         }
-
-        footer.footer a {
-            color: #00ff73;
+        
+        .buy-btn {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 12px 30px;
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            background: transparent;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .buy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 255, 115, 0.2),
+                transparent
+            );
+            transition: var(--transition);
+        }
+        
+        .buy-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(0, 255, 115, 0.4);
+        }
+        
+        .buy-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Size selector */
+        .size-selector {
+            display: flex;
+            gap: 8px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+        
+        .size-option {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--dark-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--gray);
+        }
+        
+        .size-option:hover, .size-option.selected {
+            background: var(--primary);
+            color: var(--dark);
+            border-color: var(--primary);
+        }
+        
+        .footer {
+            margin-top: 80px;
+            background-color: var(--darker);
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .footer p {
+            margin: 10px 0;
+            color: var(--gray-light);
+        }
+        
+        .footer a {
+            color: var(--primary);
             text-decoration: none;
-            margin: 0 5px;
+            margin: 0 10px;
+            transition: var(--transition);
         }
-
-        footer.footer a:hover {
+        
+        .footer a:hover {
+            color: white;
             text-decoration: underline;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 1024px) {
+            .clothes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .custom-header {
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .clothes-container {
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .clothes-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -132,30 +359,41 @@
 <header class="custom-header">
     <h1 class="logo">ShopMaster</h1>
     <nav class="nav-links">
-        <a href="{{ url('/') }}">Home</a>
-        <a href="{{ route('ajouter-produit') }}">Ajouter un produit</a>
-        <a href="{{ route('page1') }}">Dernière page</a>
+        <a href="{{ url('/') }}"><i class="fas fa-home"></i> Accueil</a>
+        <a href="{{ route('ajouter-produit') }}"><i class="fas fa-plus-circle"></i> Ajouter un produit</a>
+        <a href="{{ route('page1') }}"><i class="fas fa-tshirt"></i> Dernière page</a>
     </nav>
 </header>
 
 <section class="clothes-container">
-    <h2 style="color: #00ff73; text-align: center;">Vêtements disponibles</h2>
+    <h2 class="section-title">Collection Vêtements</h2>
 
     @if($clothes->isEmpty())
-        <p style="text-align: center; color: #ccc;">Aucun vêtement trouvé.</p>
+        <p class="empty-message">Aucun vêtement trouvé.</p>
     @else
         <div class="clothes-grid">
             @foreach($clothes as $clothing)
                 <div class="clothes-card">
                     @if($clothing->image)
-                        <img src="{{ asset('storage/' . $clothing->image) }}" alt="{{ $clothing->name }}">
+                        <img src="{{ asset('storage/' . $clothing->image) }}" alt="{{ $clothing->name }}" class="clothes-img">
                     @endif
-                    <h3>{{ $clothing->name }}</h3>
-                    <p>Prix : {{ $clothing->price }} MAD</p>
-                    <p>Quantité : {{ $clothing->quantity }}</p>
-                    <p>Email : {{ $clothing->email }}</p>
-                    <p>Téléphone : {{ $clothing->phone }}</p>
-                    <button class="buy-btn">Acheter</button>
+                    <h3 class="clothes-title">{{ $clothing->name }}</h3>
+                    <p class="clothes-detail"><i class="fas fa-tag"></i> Prix : {{ $clothing->price }} MAD</p>
+                    <p class="clothes-detail"><i class="fas fa-box-open"></i> Quantité : {{ $clothing->quantity }}</p>
+                    <p class="clothes-detail"><i class="fas fa-envelope"></i> Email : {{ $clothing->email }}</p>
+                    <p class="clothes-detail"><i class="fas fa-phone"></i> Téléphone : {{ $clothing->phone }}</p>
+                    
+                    <!-- Size selector for clothing -->
+                    <div class="size-selector">
+                        <div class="size-option">S</div>
+                        <div class="size-option">M</div>
+                        <div class="size-option">L</div>
+                        <div class="size-option">XL</div>
+                    </div>
+                    
+                    <button class="buy-btn">
+                        <i class="fas fa-shopping-bag"></i> Acheter maintenant
+                    </button>
                 </div>
             @endforeach
         </div>
@@ -165,11 +403,25 @@
 <footer class="footer">
     <p>© {{ date('Y') }} ShopMaster. Tous droits réservés.</p>
     <p>
-        <a href="#">Confidentialité</a> |
-        <a href="#">Conditions</a> |
-        <a href="#">Contact</a>
+        <a href="#"><i class="fas fa-lock"></i> Confidentialité</a> |
+        <a href="#"><i class="fas fa-file-alt"></i> Conditions</a> |
+        <a href="#"><i class="fas fa-envelope"></i> Contact</a>
     </p>
 </footer>
+
+<script>
+    // Size selection functionality
+    document.querySelectorAll('.size-option').forEach(option => {
+        option.addEventListener('click', function() {
+            // Remove selected class from all options
+            document.querySelectorAll('.size-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            // Add selected class to clicked option
+            this.classList.add('selected');
+        });
+    });
+</script>
 
 </body>
 </html>

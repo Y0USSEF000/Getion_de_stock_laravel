@@ -565,12 +565,7 @@
   <div class="homepage">
     <nav class="navbar">
       <h2>ShopMaster</h2>
-      <ul>
-        <li><a href="#"><i class="fas fa-home"></i> Accueil</a></li>
-        <li><a href="#"><i class="fas fa-store"></i> Boutique</a></li>
-        <li><a href="#"><i class="fas fa-info-circle"></i> À propos</a></li>
-        <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
-      </ul>
+    
     </nav>
 
     <header class="hero">

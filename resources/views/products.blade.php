@@ -8,19 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --primary-light: #4895ef;
-            --secondary: #3f37c9;
-            --accent: #4cc9f0;
+            --primary: #00ff73;
+            --primary-dark: #00cc5c;
+            --primary-light: rgba(0, 255, 115, 0.1);
+            --dark: #000000;
+            --dark-light: #1a1a1a;
+            --darker: #111111;
             --light: #f8f9fa;
-            --dark: #212529;
-            --darker: #1a1e21;
-            --danger: #f72585;
-            --danger-dark: #e01a6e;
-            --success: #4caf50;
+            --gray: #2d2d2d;
+            --gray-light: #e9ecef;
+            --danger: #dc3545;
+            --danger-dark: #bb2d3b;
+            --success: #00ff73;
             --warning: #ff9800;
-            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
@@ -32,8 +33,8 @@
         }
         
         body {
-            background-color: #f5f7fa;
-            color: var(--dark);
+            background-color: var(--dark);
+            color: white;
             line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
@@ -52,7 +53,7 @@
         
         h1 {
             font-family: 'Montserrat', sans-serif;
-            color: var(--primary-dark);
+            color: var(--primary);
             text-align: center;
             margin-bottom: 30px;
             font-size: 2.2rem;
@@ -68,22 +69,23 @@
             transform: translateX(-50%);
             width: 100px;
             height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
+            background: var(--primary);
             border-radius: 2px;
         }
         
         .alert-success {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            color: #155724;
+            background: var(--dark-light);
+            color: var(--primary);
             padding: 15px 20px;
             border-radius: 8px;
             margin-bottom: 30px;
-            border-left: 4px solid var(--success);
+            border-left: 4px solid var(--primary);
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             animation: slideIn 0.5s ease-out;
+            border: 1px solid var(--gray);
         }
         
         @keyframes slideIn {
@@ -92,21 +94,22 @@
         }
         
         .alert-success i {
-            color: var(--success);
+            color: var(--primary);
             font-size: 1.3rem;
         }
         
         .table-wrapper {
             overflow-x: auto;
-            background: white;
+            background: var(--dark-light);
             box-shadow: var(--card-shadow);
             border-radius: 12px;
             padding: 20px;
             transition: var(--transition);
+            border: 1px solid var(--gray);
         }
         
         .table-wrapper:hover {
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 255, 115, 0.1);
         }
         
         table {
@@ -118,12 +121,12 @@
         th, td {
             padding: 15px 20px;
             text-align: left;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--gray);
         }
         
         th {
-            background: linear-gradient(to right, var(--primary), var(--primary-dark));
-            color: white;
+            background: var(--primary);
+            color: var(--dark);
             font-weight: 600;
             text-transform: uppercase;
             font-size: 0.85rem;
@@ -137,11 +140,11 @@
         }
         
         tr:not(:last-child) {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--gray);
         }
         
         tr:hover {
-            background-color: rgba(72, 149, 239, 0.08);
+            background-color: var(--primary-light);
         }
         
         .product-img {
@@ -149,18 +152,18 @@
             height: 60px;
             object-fit: cover;
             border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--gray);
             transition: var(--transition);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
         }
         
         .product-img:hover {
             transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 255, 115, 0.3);
         }
         
         .no-image {
-            color: #6c757d;
+            color: var(--gray-light);
             font-style: italic;
             font-size: 0.9rem;
         }
@@ -177,7 +180,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 3px 10px rgba(247, 37, 133, 0.2);
+            box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
         }
         
         .delete-btn i {
@@ -187,7 +190,7 @@
         .delete-btn:hover {
             background: linear-gradient(135deg, var(--danger-dark), #c9165b);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
         }
         
         .delete-btn:active {
@@ -198,38 +201,17 @@
             display: flex;
             gap: 10px;
         }
-        
-        .edit-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 3px 10px rgba(67, 97, 238, 0.2);
-        }
-        
-        .edit-btn:hover {
-            background: linear-gradient(135deg, var(--primary-dark), #314bc8);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
-        }
-        
+
         .category-badge {
             display: inline-block;
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 500;
-            background: linear-gradient(135deg, #e0e7ff, #d5deff);
-            color: var(--primary-dark);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            background: var(--primary-light);
+            color: var(--primary);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--primary);
         }
 
         /* Modal styles */
@@ -240,20 +222,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.8);
             z-index: 1000;
             justify-content: center;
             align-items: center;
         }
 
         .modal-content {
-            background-color: white;
+            background-color: var(--dark-light);
             padding: 30px;
             border-radius: 12px;
             max-width: 500px;
             width: 90%;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 30px rgba(0, 255, 115, 0.2);
             animation: modalFadeIn 0.3s ease-out;
+            border: 1px solid var(--primary);
         }
 
         @keyframes modalFadeIn {
@@ -277,12 +260,13 @@
         }
 
         .modal-btn-cancel {
-            background: #f0f0f0;
-            color: var(--dark);
+            background: var(--gray);
+            color: white;
+            border: 1px solid var(--gray-light);
         }
 
         .modal-btn-cancel:hover {
-            background: #e0e0e0;
+            background: var(--gray-light);
         }
 
         .modal-btn-confirm {
@@ -350,7 +334,7 @@
                 font-size: 0.85rem;
             }
             
-            .delete-btn, .edit-btn {
+            .delete-btn {
                 padding: 6px 12px;
                 font-size: 0.85rem;
             }
@@ -405,7 +389,7 @@
                     <td>{{ number_format($product->product_price, 2, ',', ' ') }}</td>
                     <td>{{ $product->product_quantity }}</td>
                     <td>
-                       
+                        <div class="action-btns">
                             <button class="delete-btn" onclick="openDeleteModal({{ $product->id }})">
                                 <i class="fas fa-trash-alt"></i> Supprimer
                             </button>
@@ -418,10 +402,9 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="modal">
     <div class="modal-content">
-        <h3 style="margin-bottom: 15px;"><i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i> Confirmer la suppression</h3>
+        <h3 style="margin-bottom: 15px; color: var(--primary);"><i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i> Confirmer la suppression</h3>
         <p>Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible.</p>
         <div class="modal-actions">
             <button class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Annuler</button>
@@ -489,7 +472,6 @@
         }
     }
 </script>
-
 
 </body>
 </html>

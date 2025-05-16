@@ -15,6 +15,7 @@ use App\Http\Controllers\StockProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 
 
@@ -160,6 +161,13 @@ Route::get('/admin/add-product', [AdminProductController::class, 'create'])->nam
 Route::get('/admin/products', [AdminProductController::class, 'index'])->name('products');
 Route::post('/admin/products', [AdminProductController::class, 'store'])->name('admin.product.store');
   Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+
+Route::prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/add', [CartController::class, 'store'])->name('cart.store');
+    Route::put('/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+});
 
 
 Auth::routes();

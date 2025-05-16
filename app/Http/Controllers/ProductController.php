@@ -96,4 +96,24 @@ public function destroy($id)
     return redirect()->route('products.index')
                    ->with('success', 'Product deleted successfully');
 }
+public function buy(Request $request)
+{
+    $product = Product::find($request->product_id);
+
+    if ($product) {
+        DB::table('buy')->insert([
+            'name' => $product->name,
+            'price' => $product->price,
+            'quantity' => $product->quantity,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['message' => '✅ Product added to cart!']);
+    }
+
+    return response()->json(['message' => '❌ Product not found.'], 404);
+    
+}
+
 }

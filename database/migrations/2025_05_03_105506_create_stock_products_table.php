@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+    public function up()
     {
+        Schema::dropIfExists('stock_products'); // ← ajoute cette ligne
+    
         Schema::create('stock_products', function (Blueprint $table) {
             $table->id();
             $table->string('product_name');
@@ -18,6 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+    
 
     public function down(): void
     {
