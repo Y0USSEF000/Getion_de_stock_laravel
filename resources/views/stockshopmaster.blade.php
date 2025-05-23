@@ -552,7 +552,7 @@
     <header>
         <h1>ShopMaster Products</h1>
         <nav>
-            <a href="{{ url('/') }}"><i class="fas fa-home"></i> Home</a>
+            <a href="{{ url('/page1') }}"><i class="fas fa-home"></i> Home</a>
             <a href="{{ route('cart.index') }}"><i class="fas fa-shopping-cart"></i> Cart</a>
             <a href="{{ route('contact') }}"><i class="fas fa-envelope"></i> Contact</a>
         </nav>
@@ -679,20 +679,16 @@
         }
 
         function filterProductsByType(type) {
-            // Get current URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             
-            // Set or update the type parameter
             if (type === 'all') {
                 urlParams.delete('type');
             } else {
                 urlParams.set('type', type);
             }
             
-            // Always reset to page 1 when changing filters
             urlParams.set('page', '1');
             
-            // Build the new URL
             const newUrl = window.location.pathname + '?' + urlParams.toString();
             window.location.href = newUrl;
         }

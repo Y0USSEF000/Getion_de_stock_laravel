@@ -53,10 +53,9 @@ Route::get('/video-games', [ProductController::class, 'videoGames'])->name('vide
 
 
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+// Contact routes
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
+Route::post('/contact/submit', [App\Http\Controllers\ContactController::class, 'submit'])->name('contact.submit');
 
 
 
@@ -95,8 +94,10 @@ Route::post('/produits', [ProductController::class, 'store'])->name('product.sto
 
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
-Route::post('/support', [SupportController::class, 'submit'])->name('contact.submit');
-
+Route::get('/messages', [SupportMessageController::class, 'showMessages'])
+     ->name('messages')
+     ->middleware('auth');
+     
 Route::get('/connexionadmin', function () {
     return view('connexionadmin');
 })->name('connexionadmin');

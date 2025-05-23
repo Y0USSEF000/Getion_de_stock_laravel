@@ -9,7 +9,6 @@ class Support extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name', 'email', 'subject', 'message'
-    ];
+    protected $table = 'supports'; // Explicitly map to supports table
+    protected $fillable = ['name', 'email', 'subject', 'message'];
 }

@@ -132,4 +132,9 @@ class CartController extends Controller
 
         return back()->with('success', 'Cart updated!');
     }
+    public function showMessages()
+{
+    $messages = SupportMessage::orderBy('created_at', 'desc')->paginate(10);
+    return view('messages', compact('messages'));
+}
 }
